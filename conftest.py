@@ -3,9 +3,14 @@ import pytest
 from selene.support.shared import browser
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def url():
-    return "https://google.com"
+    browser.config.timeout = 3.0
+    browser.config.base_url = "https://google.com"
+
+    yield
+
+    browser.quit()
 
 
 @pytest.fixture(scope="function")
